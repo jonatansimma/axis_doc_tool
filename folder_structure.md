@@ -1,3 +1,5 @@
+folder_structure v1.0
+
 axis_doc_tool/
 ├─ README.md
 ├─ LICENSE
