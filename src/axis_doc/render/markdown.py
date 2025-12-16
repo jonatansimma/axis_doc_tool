@@ -48,3 +48,21 @@ def render_camera_doc_md(doc: CameraDocumentation) -> str:
     lines.append("")
 
     return "\n".join(lines)
+
+def render_multi_camera_md(docs: list[CameraDocumentation]) -> str:
+    parts: list[str] = []
+    parts.append("# Site Documentation (placeholder)")
+    parts.append("")
+    parts.append(f"Camera count: **{len(docs)}**")
+    parts.append("")
+
+    for i, d in enumerate(docs, start=1):
+        if i > 1:
+            parts.append("---")
+            parts.append("")
+        parts.append(f"## Camera {i}")
+        parts.append("")
+        parts.append(f"- **IP:** {d.identity.ip}")
+        parts.append("")
+
+    return "\n".join(parts)
