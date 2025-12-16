@@ -201,7 +201,40 @@ From the repository root:
 python -m venv .venv
 source .venv/bin/activate
 pip install -e .
+```
 
 Optional extras:
+```bash
 pip install -e ".[dev]"
 pip install -e ".[pdf]"
+```
+
+---
+
+## Run (development)
+
+Once entry points are implemented:
+```bash
+axis-doc --help
+axis-doc-tui
+```
+Or as a module:
+```bash
+python -m axis_doc --help
+```
+
+---
+
+## Documentation
+
+- Full planning document: docs/axis_doc_tool_plan.md (v1.1)
+- Protocol coverage matrix: docs/Protocol_Coverage_Matrix.md
+
+---
+
+## License
+See LICENSE
+
+---
+
+This project is intended as an internal technical aid for Axis camera documentation workflows.
