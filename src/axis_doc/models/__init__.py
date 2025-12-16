@@ -11,12 +11,22 @@ to avoid breaking the package while we build incrementally.
 from __future__ import annotations
 
 # Core (must exist)
-from .camera_doc import CameraDocumentation, CameraIdentity, TechnicianNotes
+from .camera_doc import (
+    CameraDocumentation,
+    CameraIdentity,
+    TechnicianNotes,
+    SystemFacts,
+    NetworkFacts,
+    StreamFacts,
+)
 
 __all__ = [
     "CameraDocumentation",
     "CameraIdentity",
     "TechnicianNotes",
+    "SystemFacts",
+    "NetworkFacts",
+    "StreamFacts",
 ]
 
 # Optional models (may be added later)
