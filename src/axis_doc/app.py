@@ -27,20 +27,19 @@ class App:
     - Minimal plumbing only
     """
 
-    def run(self, mode: str, argv: Sequence[str] | None = None, *, targets_text: str | None = None) -> AppResult:
+        def run(
+        self,
+        mode: str,
+        argv: Sequence[str] | None = None,
+        *,
+        targets_text: str | None = None,
+    ) -> AppResult:
         if mode == "cli":
             if targets_text:
                 return self._run_cli_parse(targets_text)
             print("axis_doc_tool: placeholder (CLI). Baseline wiring OK.")
             return AppResult(ok=True, exit_code=0)
 
-        if mode == "tui":
-            print("axis_doc_tool: placeholder (TUI). Baseline wiring OK.")
-            return AppResult(ok=True, exit_code=0)
-
-        print(f"axis_doc_tool: unknown mode={mode!r}")
-        return AppResult(ok=False, message=f"Unknown mode: {mode!r}", exit_code=2)
-    
         if mode == "cli-doc":
             if not targets_text:
                 print("No targets provided.")
@@ -56,6 +55,12 @@ class App:
             print(render_multi_camera_md(docs))
             return AppResult(ok=True, exit_code=0)
 
+        if mode == "tui":
+            print("axis_doc_tool: placeholder (TUI). Baseline wiring OK.")
+            return AppResult(ok=True, exit_code=0)
+
+        print(f"axis_doc_tool: unknown mode={mode!r}")
+        return AppResult(ok=False, message=f"Unknown mode: {mode!r}", exit_code=2)
 
     def _run_cli_parse(self, targets_text: str) -> AppResult:
         parsed = parse_targets(targets_text)
