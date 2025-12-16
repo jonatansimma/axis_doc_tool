@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable
 
-from axis_doc.models import CameraDocumentation, CameraIdentity
+from axis_doc.models import CameraDocumentation, CameraIdentity, NetworkFacts, StreamFacts, SystemFacts
 
 
 @dataclass(frozen=True)
@@ -31,5 +31,16 @@ class DocumentationCollector:
         docs: list[CameraDocumentation] = []
         for ip in ips:
             ident = CameraIdentity(ip=ip)
-            docs.append(CameraDocumentation(identity=ident))
+            sysf = SystemFacts()
+            netf = NetworkFacts(ipv4_address=ip)  # harmless default: echo target
+            strf = StreamFacts()
+
+            docs.append(
+                CameraDocumentation(
+                    identity=ident,
+                    system=sysf,
+                    network=netf,
+                    stream=strf,
+                )
+            )
         return docs
