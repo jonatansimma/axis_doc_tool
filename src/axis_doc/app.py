@@ -44,6 +44,13 @@ class App:
                 return AppResult(ok=False, exit_code=2)
 
             parsed = parse_targets(targets_text)
+
+            if parsed.rejected:
+                print(f"Rejected tokens ({len(parsed.rejected)}):")
+                for t in parsed.rejected:
+                    print(f"  - {t}")
+                print("")
+
             if not parsed.targets:
                 print("No valid targets parsed.")
                 return AppResult(ok=False, exit_code=2)
