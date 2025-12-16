@@ -46,8 +46,9 @@ axis_doc_tool/
 │     ├─ audit.py                    # audit mode (incl snapshot diff)
 │     ├─ logging_setup.py
 │     ├─ errors.py
-
+│     │  
 │     ├─ models/
+│     │  ├─ __pychache__
 │     │  ├─ __init__.py
 │     │  ├─ camera_doc.py            # CameraDocumentation
 │     │  ├─ snapshot.py              # snapshot metadata + schema
