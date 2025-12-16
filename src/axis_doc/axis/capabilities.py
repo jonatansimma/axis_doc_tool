@@ -5,8 +5,9 @@ import re
 from axis_doc.models import CameraCapabilities, CameraKind
 
 
-_PTZ_RE = re.compile(r"\b(Q\d{3,4})\b", re.IGNORECASE)          # Axis Q series often PTZ, but not always
-_MULTI_RE = re.compile(r"\b(P37|Q18)\b", re.IGNORECASE)         # P37, Q18 commonly multisensor
+# Q18xx series (e.g., Q1806) and P37xx series (e.g., P3748) are multisensor families
+_MULTI_RE = re.compile(r"\b(Q18\d{2}|P37\d{2})\b", re.IGNORECASE)
+
 _PTZ_HINT_RE = re.compile(r"\bPTZ\b", re.IGNORECASE)
 
 
@@ -16,14 +17,13 @@ def resolve_capabilities(model: str | None) -> CameraCapabilities:
 
     m = model.strip()
 
+    # Explicit hint wins
     if _PTZ_HINT_RE.search(m):
         return CameraCapabilities(kind=CameraKind.PTZ)
 
+    # Multisensor families (by model prefix)
     if _MULTI_RE.search(m):
         return CameraCapabilities(kind=CameraKind.MULTISENSOR)
 
-    # Conservative: if it looks like Q-series, keep UNKNOWN unless explicitly PTZ
-    if _PTZ_RE.search(m):
-        return CameraCapabilities(kind=CameraKind.UNKNOWN)
-
+    # Otherwise: default to fixed (conservative enough for now)
     return CameraCapabilities(kind=CameraKind.FIXED)
