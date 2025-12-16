@@ -49,6 +49,7 @@ def render_camera_doc_md(doc: CameraDocumentation) -> str:
 
     return "\n".join(lines)
 
+
 def render_multi_camera_md(docs: list[CameraDocumentation]) -> str:
     parts: list[str] = []
     parts.append("# Site Documentation (placeholder)")
