@@ -9,6 +9,7 @@ to avoid breaking the package while we build incrementally.
 """
 
 from __future__ import annotations
+from .capabilities import CameraCapabilities, CameraKind
 
 # Core (must exist)
 from .camera_doc import (
@@ -27,6 +28,8 @@ __all__ = [
     "SystemFacts",
     "NetworkFacts",
     "StreamFacts",
+    "CameraCapabilities",
+    "CameraKind"
 ]
 
 # Optional models (may be added later)
