@@ -5,6 +5,10 @@ from typing import Sequence
 
 from .ipparse import parse_targets
 
+from axis_doc.collector import DocumentationCollector
+from axis_doc.render import render_multi_camera_md
+
+
 
 @dataclass(frozen=True)
 class AppResult:
@@ -36,6 +40,22 @@ class App:
 
         print(f"axis_doc_tool: unknown mode={mode!r}")
         return AppResult(ok=False, message=f"Unknown mode: {mode!r}", exit_code=2)
+    
+        if mode == "cli-doc":
+            if not targets_text:
+                print("No targets provided.")
+                return AppResult(ok=False, exit_code=2)
+
+            parsed = parse_targets(targets_text)
+            if not parsed.targets:
+                print("No valid targets parsed.")
+                return AppResult(ok=False, exit_code=2)
+
+            collector = DocumentationCollector()
+            docs = collector.collect_for_ips(parsed.targets)
+            print(render_multi_camera_md(docs))
+            return AppResult(ok=True, exit_code=0)
+
 
     def _run_cli_parse(self, targets_text: str) -> AppResult:
         parsed = parse_targets(targets_text)
