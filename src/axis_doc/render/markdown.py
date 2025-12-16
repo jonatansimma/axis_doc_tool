@@ -19,6 +19,10 @@ def render_camera_doc_md(doc: CameraDocumentation) -> str:
     if doc.identity.firmware:
         lines.append(f"- **Firmware:** {doc.identity.firmware}")
     lines.append("")
+    lines.append("## Capabilities (placeholder)")
+    lines.append(f"- **Kind:** {doc.capabilities.kind.value}")
+    lines.append("")
+
 
     # System
     lines.append("## System (placeholder)")
@@ -56,6 +60,7 @@ def render_multi_camera_md(docs: list[CameraDocumentation]) -> str:
     parts.append("")
     parts.append(f"Camera count: **{len(docs)}**")
     parts.append("")
+    
 
     for i, d in enumerate(docs, start=1):
         if i > 1:
@@ -65,5 +70,7 @@ def render_multi_camera_md(docs: list[CameraDocumentation]) -> str:
         parts.append("")
         parts.append(f"- **IP:** {d.identity.ip}")
         parts.append("")
+        parts.append(f"- **Kind:** {d.capabilities.kind.value}")
+
 
     return "\n".join(parts)
