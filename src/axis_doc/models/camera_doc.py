@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
+from axis_doc.models.capabilities import CameraCapabilities
 
 
 @dataclass(frozen=True)
@@ -73,6 +74,7 @@ class CameraDocumentation:
     system: SystemFacts = field(default_factory=SystemFacts)
     network: NetworkFacts = field(default_factory=NetworkFacts)
     stream: StreamFacts = field(default_factory=StreamFacts)
+    capabilities: CameraCapabilities = field(default_factory=CameraCapabilities)
 
     # Future-proof containers (no schema enforcement yet)
     facts: dict[str, Any] = field(default_factory=dict)
