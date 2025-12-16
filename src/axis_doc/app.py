@@ -3,11 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Sequence
 
-from .ipparse import parse_targets
-
 from axis_doc.collector import DocumentationCollector
+from axis_doc.ipparse import parse_targets
 from axis_doc.render import render_multi_camera_md
-
 
 
 @dataclass(frozen=True)
@@ -27,7 +25,7 @@ class App:
     - Minimal plumbing only
     """
 
-        def run(
+    def run(
         self,
         mode: str,
         argv: Sequence[str] | None = None,
@@ -84,6 +82,11 @@ class App:
         return AppResult(ok=False, message="No valid targets parsed.", exit_code=2)
 
 
-def run(mode: str, argv: Sequence[str] | None = None, *, targets_text: str | None = None) -> int:
+def run(
+    mode: str,
+    argv: Sequence[str] | None = None,
+    *,
+    targets_text: str | None = None,
+) -> int:
     result = App().run(mode=mode, argv=argv, targets_text=targets_text)
     return result.exit_code
