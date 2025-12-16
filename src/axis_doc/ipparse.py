@@ -17,7 +17,6 @@ class ParsedTargets:
 
 
 def _split_tokens(text: str) -> list[str]:
-    # Split on common separators and remove empties
     raw = re.split(r"[\s,;]+", text.strip())
     return [t for t in (r.strip() for r in raw) if t]
 
@@ -26,7 +25,6 @@ def _expand_cidr(token: str) -> Iterable[ipaddress.IPv4Address]:
     net = ipaddress.ip_network(token, strict=False)
     if not isinstance(net, ipaddress.IPv4Network):
         return []
-    # Exclude network/broadcast where applicable by iterating hosts()
     return net.hosts()
 
 
@@ -44,17 +42,16 @@ def _expand_range_short(prefix: str, start_oct: str, end_oct: str) -> Iterable[i
     e = int(end_oct)
     if e < s:
         s, e = e, s
+
+    # Octet bounds check (0..255)
+    if not (0 <= s <= 255 and 0 <= e <= 255):
+        raise ValueError("IPv4 octet out of range")
+
     for last in range(s, e + 1):
         yield ipaddress.IPv4Address(f"{prefix}.{last}")
 
 
 def parse_targets(text: str) -> ParsedTargets:
-    """
-    Parse manual IP input into an ordered, de-duplicated list of IPv4 strings.
-    No network activity. No file I/O.
-
-    Returns ParsedTargets(targets=[...], rejected=[...]).
-    """
     if not text or not text.strip():
         return ParsedTargets(targets=[], rejected=[])
 
@@ -65,7 +62,6 @@ def parse_targets(text: str) -> ParsedTargets:
 
     for token in tokens:
         try:
-            # CIDR
             if "/" in token:
                 for ip in _expand_cidr(token):
                     s = str(ip)
@@ -74,7 +70,6 @@ def parse_targets(text: str) -> ParsedTargets:
                         out.append(s)
                 continue
 
-            # full range A-B
             m = _RANGE_FULL_RE.match(token)
             if m:
                 a, b = m.group(1), m.group(2)
@@ -85,7 +80,6 @@ def parse_targets(text: str) -> ParsedTargets:
                         out.append(s)
                 continue
 
-            # short range 192.168.0.10-25
             m2 = _RANGE_SHORT_RE.match(token)
             if m2:
                 prefix, a, b = m2.group(1), m2.group(2), m2.group(3)
@@ -96,14 +90,13 @@ def parse_targets(text: str) -> ParsedTargets:
                         out.append(s)
                 continue
 
-            # single IP
             ip = ipaddress.IPv4Address(token)
             s = str(ip)
             if s not in seen:
                 seen.add(s)
                 out.append(s)
 
-        except Exception:
+        except (ValueError, ipaddress.AddressValueError):
             rejected.append(token)
 
     return ParsedTargets(targets=out, rejected=rejected)
