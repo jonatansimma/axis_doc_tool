@@ -14,6 +14,7 @@ axis_doc_tool/
 ├─ docs/
 │  ├─ axis_doc_tool_plan.md          # now v1.1
 │  ├─ Protocol_Coverage_Matrix.md
+│  ├─ folder_structure.md
 │  ├─ examples/
 │  │  ├─ sample_output_camera.md
 │  │  ├─ sample_output_site_summary.md
