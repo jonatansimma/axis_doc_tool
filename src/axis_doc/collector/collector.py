@@ -19,9 +19,9 @@ class DocumentationCollector:
     """
     Builds CameraDocumentation objects.
 
-    Current phase:
+        Current phase:
     - No API calls
-    - Identity only (IP)
+    - Identity + placeholder facts (system/network/stream)
     """
 
     def __init__(self, config: CollectorConfig | None = None) -> None:
